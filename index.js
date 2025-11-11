@@ -1,7 +1,7 @@
 const shopItems = [
   {
     id: 1,
-    image: "../assets/images/image-baklava.jpg",
+    image: "assets/images/image-baklava.jpg",
     name: "Baklava",
     price: 800,
     description: "Pisztáciás Baklava",
@@ -9,7 +9,7 @@ const shopItems = [
   },
   {
     id: 2,
-    image: "../assets/images/image-brownie.jpg",
+    image: "assets/images/image-brownie.jpg",
     name: "Brownie",
     price: 1200,
     description: "Sós-karamellás Brownie",
@@ -17,7 +17,7 @@ const shopItems = [
   },
   {
     id: 3,
-    image: "../assets/images/image-cake.jpg",
+    image: "assets/images/image-cake.jpg",
     name: "Torta",
     price: 950,
     description: "Epres Krém-Torta",
@@ -25,7 +25,7 @@ const shopItems = [
   },
   {
     id: 4,
-    image: "../assets/images/image-creme-brulee.jpg",
+    image: "assets/images/image-creme-brulee.jpg",
     name: "Creme Brülée",
     price: 1500,
     description: "Vinlia Creme Brülée",
@@ -33,7 +33,7 @@ const shopItems = [
   },
   {
     id: 5,
-    image: "../assets/images/image-macaron.jpg",
+    image: "assets/images/image-macaron.jpg",
     name: "Makaron",
     price: 2000,
     description: "Makaron-mix 5db",
@@ -41,7 +41,7 @@ const shopItems = [
   },
   {
     id: 6,
-    image: "../assets/images/image-meringue.jpg",
+    image: "assets/images/image-meringue.jpg",
     name: "Meringue",
     price: 1490,
     description: "Citromos Merinque pite",
@@ -49,7 +49,7 @@ const shopItems = [
   },
   {
     id: 7,
-    image: "../assets/images/image-panna-cotta.jpg",
+    image: "assets/images/image-panna-cotta.jpg",
     name: "Panna Cotta",
     price: 1490,
     description: "Vaniliás Panna Cotta",
@@ -57,7 +57,7 @@ const shopItems = [
   },
   {
     id: 9,
-    image: "../assets/images/image-waffle.jpg",
+    image: "assets/images/image-waffle.jpg",
     name: "Gofri",
     price: 1490,
     description: "Epres Gofri",
@@ -65,7 +65,7 @@ const shopItems = [
   },
   {
     id: 10,
-    image: "../assets/images/image-tiramisu.jpg",
+    image: "assets/images/image-tiramisu.jpg",
     name: "Tiramisu",
     price: 1490,
     description: "Klasszikus Tiramisu",
@@ -85,6 +85,8 @@ const summaryConfirmButton = document.querySelector('.summary-confirm-button');
 const priceSummaryElement = document.querySelector('.modal-price');
 const closeModalButton = document.querySelector('.close-modal-button');
 const form = document.querySelector('.form');
+const balanceElement = document.querySelector('.balance-value');
+let balance = 12000;
 
 const renderCard = (item) => {
   const cardElement = document.createElement("div");
@@ -170,26 +172,34 @@ const renderSummaryList = () => {
 }
 
 addToCart = (itemId) => {
-  const selectedCard = shopItems.find(item => item.id === Number(itemId));
-  const cardAmountText = document.getElementById(`card-amount-${selectedCard.id}`);
-  selectedCard.inCartCount = selectedCard.inCartCount + 1;
-  cardAmountText.innerHTML = selectedCard.inCartCount;
+  const selectedItem = shopItems.find(item => item.id === Number(itemId));
+  if (balance - selectedItem.price < 0) {
+    return alert("Az egyeleged nem elegendő a művelethez")    
+  }
+  balance = balance - selectedItem.price;
+
+  const cardAmountText = document.getElementById(`card-amount-${selectedItem.id}`);
+  selectedItem.inCartCount = selectedItem.inCartCount + 1;
+  cardAmountText.innerHTML = selectedItem.inCartCount;
   renderSummaryList();
   highlightCards();
   totalAmountElement.textContent = calculateTotalAmount();
+  renderBalance();
 }
 
 removeFromCart = (itemId) => {
-  const selectedCard = shopItems.find(item => item.id === Number(itemId));
-  if(selectedCard.inCartCount <= 0) {
+  const selectedItem = shopItems.find(item => item.id === Number(itemId));
+  if(selectedItem.inCartCount <= 0) {
     return
   }
-  const cardAmountText = document.getElementById(`card-amount-${selectedCard.id}`);
-  selectedCard.inCartCount = selectedCard.inCartCount - 1;
-  cardAmountText.innerHTML = selectedCard.inCartCount;
+  balance = balance + selectedItem.price;
+  const cardAmountText = document.getElementById(`card-amount-${selectedItem.id}`);
+  selectedItem.inCartCount = selectedItem.inCartCount - 1;
+  cardAmountText.innerHTML = selectedItem.inCartCount;
   renderSummaryList();
   highlightCards();
   totalAmountElement.textContent = calculateTotalAmount().toString();
+  renderBalance();
 }
 
 const getCartItemsAmount = () => shopItems.reduce((total, item) => total + item.inCartCount, 0);
@@ -202,6 +212,11 @@ const calculateTotalAmount = (isDiscount=false) => {
   return `${result.toString()} Ft`;
 }
 
+const renderBalance = () => {
+  balanceElement.innerHTML = "";
+  balanceElement.innerHTML = `${balance}`;
+}
+
 const clearState = () => {
   shopItems.forEach(item => item.inCartCount = 0);
   cardsContainer.innerHTML = '';
@@ -210,10 +225,13 @@ const clearState = () => {
   totalAmountElement.innerHTML = '';
   totalElement.classList.add('hidden');
   discountTextElement.classList.add('hidden');
-  renderCards()
+  balance = 12000;
+  renderBalance();
+  renderCards();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  balanceElement.innerHTML = `${balance} Ft`
   renderCards();
 
   summaryConfirmButton.addEventListener('click', () => {

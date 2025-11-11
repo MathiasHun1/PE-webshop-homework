@@ -186,6 +186,11 @@ header {
   position: sticky;
   top: 0;
 
+  .balance {
+    display: block;
+    padding-bottom: var(--spacing-x4);
+  }
+
   .summary-title {
     margin-bottom: var(--spacing-x4);
   }
