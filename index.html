@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="hu">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Webshop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <header><h1 class="title">Desszert Webshop</h1></header>
+    <main class="main">
+      <section class="content-wrapper"></section>
+      <section class="summary-wrapper">
+        <div class="summary">
+          <div class="summary-content-wrapper">
+            <h2 class="summary-title">Kosár (<span class="summary-count"></span>)</h2>
+            <ul class="summary-list list-group"></ul>
+            <div class="total-wrapper hidden">
+              <span class="">Összesen:</span>
+              <span class="total-amount"></span>
+            </div>
+          </div>
+          <button class="summary-confirm-button"  data-bs-target="#staticBackdrop">Rendelés leadása</button>
+          <div class="error custom-invisible">
+            <span>Üres a kosár, kérlek válassz valamit</span>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <p class="footer-meta">Készítette: Szekeres Mátyás</p>
+      <p class="footer-meta">
+        <span class="footer-meta date-text"></span>
+        <span>Pannon Egyetem</span>
+      </p>
+    </footer>
+  </div>
+
+  <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <span class="modal-title"><span id="discount-text" class="hidden">Kedvezményes</span> Végösszeg</span>
+          <span class="modal-price"></span>
+        </div>
+
+        <form class="form">
+          <div class="mb-3 fw-bold">
+            <label for="emailInput" class="form-label">Email cím</label>
+            <input type="email" class="form-control" id="emailInput" placeholder="email@pelda.com" required>
+          </div>
+
+          <div class="mb-3 fw-bold">
+            <label for="nameInput" class="form-label">Név</label>
+            <input type="text" class="form-control" id="nameInput" placeholder="Kovács Klára" required>
+          </div>
+
+          <div class="mb-3 fw-bold">
+            <label for="addressInput" class="form-label">Lakcím</label>
+            <input type="text" class="form-control" id="addressInput" placeholder="1202 Budapest" required>
+          </div>
+
+          <span class="meta-text">*Töltsd ki a formulát, és vedd igénybe a 30%-os kedvezményt</span>
+          <button class="submit-button" type="submit">Kedvezmény igénybevétele</button>
+        </form>
+
+        <button type="button" class="close-modal-button" data-bs-dismiss="modal">X</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+          crossorigin="anonymous"></script>
+  <script src="./index.js"></script>
+</body>
+
+</html>
