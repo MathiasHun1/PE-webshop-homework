@@ -171,7 +171,7 @@ const renderSummaryList = () => {
   }
 }
 
-addToCart = (itemId) => {
+const addToCart = (itemId) => {
   const selectedItem = shopItems.find(item => item.id === Number(itemId));
   if (balance - selectedItem.price < 0) {
     return alert("Az egyeleged nem elegendő a művelethez")    
@@ -187,7 +187,7 @@ addToCart = (itemId) => {
   renderBalance();
 }
 
-removeFromCart = (itemId) => {
+const removeFromCart = (itemId) => {
   const selectedItem = shopItems.find(item => item.id === Number(itemId));
   if(selectedItem.inCartCount <= 0) {
     return
